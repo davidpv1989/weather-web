@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <title>Clima</title>
+</head>
+<body>
+  <h1>Clima</h1>
+
+  <form method="get">
+    <input name="city" placeholder="Ciudad (ej. Santiago)" value="{{ request.GET.city }}" required>
+    <button>Buscar</button>
+  </form>
+
+  {% if error %}
+    <p style="color: red;">{{ error }}</p>
+  {% endif %}
+
+  {% if city %}
+    <h2>{{ city }}, {{ country }}</h2>
+    <p>
+      {{ current.temperature_2m }} °C ·
+      Humedad {{ current.relative_humidity_2m }}% ·
+      Viento {{ current.wind_speed_10m }} km/h
+    </p>
+
+    <table border="1" cellpadding="6">
+      <tr><th>Fecha</th><th>Mín</th><th>Máx</th><th>Lluvia (mm)</th></tr>
+      {% for d in days %}
+        <tr>
+          <td>{{ d.date }}</td>
+          <td>{{ d.tmin }} °C</td>
+          <td>{{ d.tmax }} °C</td>
+          <td>{{ d.rain }}</td>
+        </tr>
+      {% endfor %}
+    </table>
+  {% endif %}
+</body>
+</html>
